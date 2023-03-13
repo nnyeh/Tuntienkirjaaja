@@ -4,7 +4,7 @@
       class="font-mono flex flex-col justify-center text-black border-2 border-black m-10 bg-white
       text-2xl lg:text-xl select-none gap-20 w-[80%] lg:w-[50%]"
     >
-      <form class="flex flex-col items-center gap-2" @submit="registerNewUser">
+      <form class="flex flex-col text-center items-center gap-2" @submit="registerNewUser">
         <span class="text-4xl lg:text-5xl mb-6">
           SAMPLE TEXT
         </span>
@@ -17,7 +17,7 @@
           border-2 focus:border-4 border-black w-[80%] transition-colors duration-150 text-xl lg:text-lg"
           required
         >
-        <div class="grid grid-cols-2 w-[80%] gap-4">
+        <div class="grid grid-flow-row md:grid-cols-2 w-[80%] gap-4">
           <div class="flex flex-col items-center">
             <label for="email">Etunimi</label>
             <input
