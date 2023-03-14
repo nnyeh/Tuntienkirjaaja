@@ -16,4 +16,15 @@ model user {
   firstName       String
   lastName        String
   password        String
+  logs            logging[]
+}
+
+model logging {
+  id              Int         @id @default(autoincrement())
+  workStart       DateTime
+  workEnd         DateTime
+  task            String
+  details         String?
+  user            user        @relation(fields: [userId], references: [id])
+  userId          Int
 }
