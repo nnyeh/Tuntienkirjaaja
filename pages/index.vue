@@ -7,7 +7,3 @@
 <script setup>
 definePageMeta({ auth: false })
 </script>
-
-<style scoped>
-
-</style>

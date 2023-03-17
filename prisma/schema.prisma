@@ -15,7 +15,7 @@ model user {
   email           String      @unique
   firstName       String
   lastName        String
-  password        String
+  hashedPassword  String
   logs            logging[]
 }
 

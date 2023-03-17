@@ -1,4 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { prisma } from '../../../prisma/db'
 import { NuxtAuthHandler } from '#auth'
 
 export default NuxtAuthHandler({
@@ -9,10 +10,18 @@ export default NuxtAuthHandler({
   providers: [
     // @ts-expect-error
     CredentialsProvider.default({
-      authorize (credentials: any) {
-        const user = { id: '1', name: 'J Smith', username: 'jsmith', password: 'hunter2' }
+      async authorize (credentials: any) {
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email
+          },
+          select: {
+            email: true,
+            hashedPassword: true
+          }
+        })
 
-        if (credentials?.username === user.username && credentials?.password === user.password) {
+        if (credentials.email === user?.email && credentials.password === user?.hashedPassword) {
           return user
         } else {
           console.error('Warning: Malicious login attempt registered, bad credentials provided')
