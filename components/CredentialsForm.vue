@@ -12,7 +12,7 @@
         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         placeholder="nimi@sposti"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 focus:border-4 border-black w-[80%] transition-all duration-75 text-base placeholder:text-gray-500"
+          border-2 border-black w-[80%] transition-all duration-75 text-base placeholder:text-gray-500"
         required
         @keydown.enter.prevent
       >
@@ -24,7 +24,7 @@
             type="text"
             spellcheck="false"
             class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-400 lg:focus:bg-yellow-100 focus focus:outline-none h-12 text-center
-              border-2 focus:border-4 border-black w-[100%] transition-all duration-75 text-lg"
+              border-2 border-black w-[100%] transition-all duration-75 text-lg"
             required
             @keydown.enter.prevent
           >
@@ -36,7 +36,7 @@
             type="text"
             spellcheck="false"
             class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-              border-2 focus:border-4 border-black w-[100%] transition-all duration-75 text-lg"
+              border-2 border-black w-[100%] transition-all duration-75 text-lg"
             required
             @keydown.enter.prevent
           >
@@ -51,7 +51,7 @@
         pattern=".{8,}"
         placeholder="Vähintään 8 merkkiä"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 focus:border-4 border-black w-[80%] transition-all duration-75 text-base placeholder:text-gray-500"
+          border-2 border-black w-[80%] transition-all duration-75 text-base placeholder:text-gray-500"
         required
         @keydown.enter.prevent
       >
@@ -79,7 +79,7 @@
           :disabled="!email || !password || password.length < 8"
           style="display: block"
           class="bg-emerald-300 hover:bg-emerald-200 disabled:bg-red-300 disabled:hover:bg-red-200 disabled:cursor-not-allowed transition-colors duration-150"
-          @click="signIn('credentials', { email: email, password: password, callbackUrl: '/home' })"
+          @click="signIn('credentials', { email: email, password: password, callbackUrl: '/uusi' })"
         >
           <p class="border-4 border-black p-4 transition-colors duration-150">
             Kirjaudu
@@ -108,6 +108,16 @@ const { signIn } = useSession()
 
 const router = useRouter()
 
+const email = ref("")
+const firstName = ref("")
+const lastName = ref("")
+const password = ref("")
+const fieldType = ref("password")
+
+function togglePasswordVisibility () {
+  fieldType.value = fieldType.value === "text" ? "password" : "text"
+}
+
 const registerNewUser = async () => {
   try {
     const body = {
@@ -130,16 +140,6 @@ const registerNewUser = async () => {
   } catch (error) {
     console.error(error)
   }
-}
-
-const email = ref("")
-const firstName = ref("")
-const lastName = ref("")
-const password = ref("")
-const fieldType = ref("password")
-
-function togglePasswordVisibility () {
-  fieldType.value = fieldType.value === "text" ? "password" : "text"
 }
 
 function toggleRegistering () {

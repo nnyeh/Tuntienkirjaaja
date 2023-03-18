@@ -2,6 +2,6 @@ export default defineNuxtRouteMiddleware(() => {
   const { status } = useSession()
 
   if (status.value === "authenticated") {
-    return navigateTo("/home")
+    return navigateTo("/uusi")
   }
 })
