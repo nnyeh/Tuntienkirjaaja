@@ -2,7 +2,7 @@
   <div class="min-h-[94.3vh] flex items-center justify-center">
     <form class="flex flex-col text-center items-center gap-2" @submit="registerNewUser">
       <span class="text-3xl lg:text-4xl pb-6 p-10 pt-6">
-        SAMPLE TEXT
+        Tuntikirjuri
       </span>
       <label id="top" for="email">Sähköposti*</label>
       <input
@@ -23,8 +23,8 @@
             v-model="firstName"
             type="text"
             spellcheck="false"
-            class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-400 lg:focus:bg-yellow-100 focus focus:outline-none h-12 text-center
-              border-2 border-black w-[100%] transition-all duration-75 text-lg"
+            class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus focus:outline-none h-12 text-center
+              border-2 border-black w-[100%] transition-all duration-75 text-base"
             required
             @keydown.enter.prevent
           >
@@ -36,7 +36,7 @@
             type="text"
             spellcheck="false"
             class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-              border-2 border-black w-[100%] transition-all duration-75 text-lg"
+              border-2 border-black w-[100%] transition-all duration-75 text-base"
             required
             @keydown.enter.prevent
           >
@@ -119,27 +119,20 @@ function togglePasswordVisibility () {
 }
 
 const registerNewUser = async () => {
-  try {
-    const body = {
-      email: email.value,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      password: password.value
-    }
-    await fetch(`/user`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    })
-      .then(() => {
-        router.push({ path: '/' })
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  } catch (error) {
-    console.error(error)
+  const body = {
+    email: email.value,
+    firstName: firstName.value,
+    lastName: lastName.value,
+    password: password.value
   }
+  await fetch(`/user`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+    .then(() => {
+      router.push({ path: '/' })
+    })
 }
 
 function toggleRegistering () {

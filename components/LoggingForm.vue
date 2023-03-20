@@ -13,7 +13,7 @@
         required
         @keydown.enter.prevent
       >
-      <label for="date" class="pt-4">Aloitusaika*</label>
+      <label for="startTime" class="pt-4">Aloitusaika*</label>
       <input
         v-model="startTime"
         type="time"
@@ -22,7 +22,7 @@
         required
         @keydown.enter.prevent
       >
-      <label for="date" class="pt-4">Lopetusaika*</label>
+      <label for="endTime" class="pt-4">Lopetusaika*</label>
       <input
         v-model="endTime"
         type="time"
@@ -31,7 +31,7 @@
         required
         @keydown.enter.prevent
       >
-      <label for="date" class="pt-4">Työtehtävä*</label>
+      <label for="task" class="pt-4">Työtehtävä*</label>
       <input
         v-model="task"
         type="text"
@@ -40,7 +40,7 @@
         required
         @keydown.enter.prevent
       >
-      <label for="date" class="pt-4">Selite</label>
+      <label for="text" class="pt-4">Selite</label>
       <input
         v-model="description"
         type="text"
@@ -51,7 +51,7 @@
       >
       <button
         :disabled="!date || !startTime || !endTime || !task"
-        class="text-2xl lg:text-3xl text-center border-4
+        class="text-xl lg:text-2xl text-center border-4
         bg-emerald-300 hover:bg-emerald-200 disabled:bg-red-300 disabled:hover:bg-red-200 disabled:cursor-not-allowed transition-colors duration-150
         border-black p-2 pl-10 pr-10 mb-4"
       >
@@ -65,32 +65,30 @@
 
 <script setup lang="ts">
 
+import dayjs from 'dayjs'
 const { data } = useSession()
 
 const date = ref()
+const formattedDate = dayjs(date.value).format('DD.MM.YYYY')
 const startTime = ref()
 const endTime = ref()
 const task = ref()
 const description = ref()
 
 const addNewLog = async () => {
-  try {
-    const body = {
-      email: data.value?.user?.email,
-      date: date.value,
-      startTime: startTime.value,
-      endTime: endTime.value,
-      task: task.value,
-      description: description.value
-    }
-    await fetch(`/logs`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    })
-  } catch (error) {
-    console.error(error)
+  const body = {
+    email: data.value?.user?.email,
+    date: formattedDate,
+    startTime: startTime.value,
+    endTime: endTime.value,
+    task: task.value,
+    description: description.value
   }
+  await fetch(`/addlog`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  })
 }
 
 </script>

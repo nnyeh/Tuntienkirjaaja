@@ -22,8 +22,5 @@ export default defineEventHandler(async (event) => {
       description
     }
   })
-    .catch((error) => {
-      console.error(error)
-    })
   return addNewLog
 })

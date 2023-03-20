@@ -1,13 +1,12 @@
-<!-- eslint-disable vue/no-multiple-template-root -->
 <template>
-  <NavBar />
-  <div />
+  <div>
+    <NavBar />
+    <DisplayLogs />
+  </div>
 </template>
 
-<script setup>
-
+<script setup lang="ts">
+useHead({
+  title: "Työajat | Tuntikirjuri"
+})
 </script>
-
-<style scoped>
-
-</style>

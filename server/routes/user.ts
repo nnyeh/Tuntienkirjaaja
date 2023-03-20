@@ -14,8 +14,5 @@ export default defineEventHandler(async (event) => {
       hashedPassword
     }
   })
-    .catch((error) => {
-      console.error(error)
-    })
   return createUser
 })

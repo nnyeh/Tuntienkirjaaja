@@ -1,13 +1,12 @@
-<!-- eslint-disable vue/no-multiple-template-root -->
 <template>
-  <NavBar />
-  <LoggingForm />
+  <div>
+    <NavBar />
+    <LoggingForm />
+  </div>
 </template>
 
 <script setup>
-
+useHead({
+  title: "Uusi merkintä | Tuntikirjuri"
+})
 </script>
-
-<style scoped>
-
-</style>
