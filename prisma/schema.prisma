@@ -11,12 +11,14 @@ datasource db {
 }
 
 model user {
-  id              Int         @id @default(autoincrement())
-  email           String      @unique
-  firstName       String
-  lastName        String
-  hashedPassword  String
-  logs            logging[]
+  id               Int         @id @default(autoincrement())
+  email            String      @unique
+  firstName        String
+  lastName         String
+  hashedPassword   String
+  logs             logging[]
+  costPoolPresets  userCostPoolPresets[]
+  taskPresets      userTaskPresets[]
 }
 
 model logging {
@@ -24,8 +26,23 @@ model logging {
   date            String
   startTime       String
   endTime         String
+  costPool        String
   task            String
   description     String?
+  user            user        @relation(fields: [userId], references: [id])
+  userId          Int
+}
+
+model userCostPoolPresets {
+  id              Int         @id @default(autoincrement())
+  costpool        String
+  user            user        @relation(fields: [userId], references: [id])
+  userId          Int
+}
+
+model userTaskPresets {
+  id              Int         @id @default(autoincrement())
+  task            String
   user            user        @relation(fields: [userId], references: [id])
   userId          Int
 }

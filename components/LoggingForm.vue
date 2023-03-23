@@ -1,6 +1,6 @@
 <template>
   <div class="max-h-[86.2vh] flex items-start justify-center">
-    <form class="flex flex-col items-center gap-2 mt-4" @submit="addNewLog">
+    <form class="flex flex-col items-center gap-2 mt-4 pl-10 pr-10" @submit="addNewLog">
       <span class="text-3xl lg:text-4xl text-center pl-10 pr-10 mb-4">
         Uusi merkintä
       </span>
@@ -9,7 +9,7 @@
         v-model="date"
         type="date"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[80%] transition-all duration-75 text-base"
+          border-2 border-black w-[100%] transition-all duration-75 text-base"
         required
         @keydown.enter.prevent
       >
@@ -18,7 +18,7 @@
         v-model="startTime"
         type="time"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[80%] transition-all duration-75 text-base"
+          border-2 border-black w-[100%] transition-all duration-75 text-base"
         required
         @keydown.enter.prevent
       >
@@ -27,25 +27,52 @@
         v-model="endTime"
         type="time"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[80%] transition-all duration-75 text-base"
+          border-2 border-black w-[100%] transition-all duration-75 text-base"
         required
         @keydown.enter.prevent
       >
+      <label for="task" class="pt-4">Kustannuspaikka*</label>
+      <input
+        v-model="costPool"
+        list="costpools"
+        class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
+          border-2 border-black w-[100%] transition-all duration-75 text-base"
+        required
+        @keydown.enter.prevent
+      >
+      <datalist id="costpools">
+        <option v-for="(preset, index) in presets?.costpools.slice().reverse()" :key="index">
+          {{ preset.costpool }}
+        </option>
+      </datalist>
       <label for="task" class="pt-4">Työtehtävä*</label>
       <input
         v-model="task"
-        type="text"
+        list="tasks"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[80%] transition-all duration-75 text-base"
+          border-2 border-black w-[100%] transition-all duration-75 text-base"
         required
         @keydown.enter.prevent
       >
-      <label for="text" class="pt-4">Selite</label>
+      <datalist id="tasks">
+        <option v-for="(preset, index) in presets?.tasks.slice().reverse()" :key="index">
+          {{ preset.task }}
+        </option>
+      </datalist>
+      <span class="text-center text-xs w-[80%] pt-4">
+        Voit lisätä kustannuspaikkoja
+        <br>
+        sekä työtehtäviä
+        uudelleenkäyttöä
+        <br>
+        varten <NuxtLink to="/asetukset" class="text-purple-400">asetuksista</NuxtLink>.
+      </span>
+      <label for="text" class="pt-2">Selite</label>
       <input
         v-model="description"
         type="text"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[80%] transition-all duration-75 text-base mb-8"
+          border-2 border-black w-[100%] transition-all duration-75 text-base mb-8"
         required
         @keydown.enter.prevent
       >
@@ -72,6 +99,7 @@ const date = ref()
 const formattedDate = dayjs(date.value).format('DD.MM.YYYY')
 const startTime = ref()
 const endTime = ref()
+const costPool = ref()
 const task = ref()
 const description = ref()
 
@@ -81,6 +109,7 @@ const addNewLog = async () => {
     date: formattedDate,
     startTime: startTime.value,
     endTime: endTime.value,
+    costPool: costPool.value,
     task: task.value,
     description: description.value
   }
@@ -90,6 +119,8 @@ const addNewLog = async () => {
     body: JSON.stringify(body)
   })
 }
+
+const { data: presets } = await useFetch('/showpresets', { method: 'POST', body: JSON.stringify({ email: data.value?.user?.email }) })
 
 </script>
 
@@ -104,11 +135,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 input[type="date"]::-webkit-datetime-edit {
-  margin-left: 18%
+  margin-left: 12%
 }
 
 input[type="time"]::-webkit-datetime-edit {
-  margin-left: 20%
+  margin-left: 14%
+}
+
+[list]::-webkit-calendar-picker-indicator {
+  display: none !important;
 }
 
 </style>

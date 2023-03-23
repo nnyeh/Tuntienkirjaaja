@@ -12,22 +12,26 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  const userLogs = await prisma.logging.findMany({
+  const userCostPoolPresets = await prisma.userCostPoolPresets.findMany({
     where: {
       userId: user!.id
     },
     select: {
-      date: true,
-      startTime: true,
-      endTime: true,
-      costPool: true,
-      task: true,
-      description: true
+      costpool: true
+    }
+  })
+  const userTaskPresets = await prisma.userTaskPresets.findMany({
+    where: {
+      userId: user!.id
+    },
+    select: {
+      task: true
     }
   })
   return {
     statusCode: 200,
-    body: userLogs,
+    costpools: userCostPoolPresets,
+    tasks: userTaskPresets,
     headers: {
       'Content-Type': 'application/json'
     }

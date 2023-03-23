@@ -125,7 +125,7 @@ const registerNewUser = async () => {
     lastName: lastName.value,
     password: password.value
   }
-  await fetch(`/user`, {
+  await fetch("/createuser", {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)

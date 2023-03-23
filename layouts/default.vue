@@ -4,7 +4,7 @@
       <div
         id="white"
         class="font-mono absolute top-0 right-0 bottom-0 left-0 m-auto text-black border-2 border-black bg-white
-          text-xl lg:text-xl select-none gap-20 w-[90%] lg:w-[50%] h-[95%] overflow-y-auto overflow-x-hidden"
+          text-xl lg:text-xl select-none gap-20 w-[90%] lg:w-[65%] xl:w-[50%] h-[95%] overflow-y-auto overflow-x-hidden"
       >
         <slot />
       </div>
