@@ -18,6 +18,9 @@ export default defineEventHandler(async (event) => {
     },
     select: {
       costpool: true
+    },
+    orderBy: {
+      costpool: "asc"
     }
   })
   const userTaskPresets = await prisma.userTaskPresets.findMany({
@@ -26,6 +29,9 @@ export default defineEventHandler(async (event) => {
     },
     select: {
       task: true
+    },
+    orderBy: {
+      task: "asc"
     }
   })
   return {

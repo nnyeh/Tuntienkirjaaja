@@ -1,9 +1,14 @@
 <template>
-  <div class="max-h-[86.2vh] flex flex-col justify-center">
+  <div class="max-h-[86.2vh] flex flex-col justify-start">
     <span class="text-3xl lg:text-4xl text-center pl-10 pr-10 mt-4 mb-4">
       Asetukset
     </span>
     <hr class="border-black border-2 ml-20 mr-20 mt-4 mb-4">
+    <span class="flex self-center lg:text-lg text-center pl-10 pr-10 mt-4 mb-4">
+      Lisää tässä kustannuspaikkoja tai työtehtäviä,
+      <br>
+      joita haluat käyttää uusien merkintöjen luonnissa.
+    </span>
     <span class="text-2xl lg:text-3xl text-center pl-10 pr-10 mt-4 mb-4">
       Tallenna tai poista
     </span>
@@ -19,7 +24,7 @@
         @keydown.enter.prevent
       >
       <datalist id="costpools">
-        <option v-for="(preset, index) in presets?.costpools.slice().reverse()" :key="index">
+        <option v-for="(preset, index) in presets?.costpools" :key="index">
           {{ preset.costpool }}
         </option>
       </datalist>
@@ -60,7 +65,7 @@
         @keydown.enter.prevent
       >
       <datalist id="tasks">
-        <option v-for="(preset, index) in presets?.tasks.slice().reverse()" :key="index">
+        <option v-for="(preset, index) in presets?.tasks" :key="index">
           {{ preset.task }}
         </option>
       </datalist>

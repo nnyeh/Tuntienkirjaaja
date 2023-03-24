@@ -1,7 +1,7 @@
 import { prisma } from '../../prisma/db'
 
 export default defineEventHandler(async (event) => {
-  const { email, date, startTime, endTime, costPool, task, description } = await readBody(event)
+  const { email, dateDone, startTime, endTime, costPool, task, description } = await readBody(event)
 
   const user = await prisma.user.findUnique({
     where: {
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const addNewLog = await prisma.logging.create({
     data: {
       userId: user!.id,
-      date,
+      dateDone,
       startTime,
       endTime,
       costPool,

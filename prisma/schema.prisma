@@ -23,7 +23,8 @@ model user {
 
 model logging {
   id              Int         @id @default(autoincrement())
-  date            String
+  dateAdded       DateTime    @default(now())
+  dateDone        String
   startTime       String
   endTime         String
   costPool        String

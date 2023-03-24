@@ -6,7 +6,7 @@
       </span>
       <label for="date">Päivämäärä*</label>
       <input
-        v-model="date"
+        v-model="dateDone"
         type="date"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
           border-2 border-black w-[100%] transition-all duration-75 text-base"
@@ -31,42 +31,38 @@
         required
         @keydown.enter.prevent
       >
+      <div class="flex items-center justify-center pt-4 gap-4 w-[80%]">
+        <Icon name="material-symbols:warning-rounded" size="2.5rem" class="stroke-black text-yellow-300" />
+        <span class="text-center text-xs">
+          Lisää uusia kustannuspaikkoja
+          <br>
+          sekä työtehtäviä <NuxtLink to="/asetukset" class="text-purple-400">asetuksista</NuxtLink>.
+        </span>
+      </div>
       <label for="task" class="pt-4">Kustannuspaikka*</label>
-      <input
+      <select
         v-model="costPool"
-        list="costpools"
-        class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[100%] transition-all duration-75 text-base"
+        :disabled="presets?.costpools.length === 0"
+        class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 disabled:bg-red-300 disabled:hover:bg-red-300
+        disabled:cursor-not-allowed focus:outline-none h-12 text-center border-2 border-black w-[100%] transition-all duration-75"
         required
-        @keydown.enter.prevent
       >
-      <datalist id="costpools">
-        <option v-for="(preset, index) in presets?.costpools.slice().reverse()" :key="index">
+        <option v-for="(preset, index) in presets?.costpools" :key="index">
           {{ preset.costpool }}
         </option>
-      </datalist>
+      </select>
       <label for="task" class="pt-4">Työtehtävä*</label>
-      <input
+      <select
         v-model="task"
-        list="tasks"
-        class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[100%] transition-all duration-75 text-base"
+        :disabled="presets?.tasks.length === 0"
+        class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 disabled:bg-red-300 disabled:hover:bg-red-300
+        disabled:cursor-not-allowed focus:outline-none h-12 text-center border-2 border-black w-[100%] transition-all duration-75"
         required
-        @keydown.enter.prevent
       >
-      <datalist id="tasks">
-        <option v-for="(preset, index) in presets?.tasks.slice().reverse()" :key="index">
+        <option v-for="(preset, index) in presets?.tasks" :key="index">
           {{ preset.task }}
         </option>
-      </datalist>
-      <span class="text-center text-xs w-[80%] pt-4">
-        Voit lisätä kustannuspaikkoja
-        <br>
-        sekä työtehtäviä
-        uudelleenkäyttöä
-        <br>
-        varten <NuxtLink to="/asetukset" class="text-purple-400">asetuksista</NuxtLink>.
-      </span>
+      </select>
       <label for="text" class="pt-2">Selite</label>
       <input
         v-model="description"
@@ -77,7 +73,7 @@
         @keydown.enter.prevent
       >
       <button
-        :disabled="!date || !startTime || !endTime || !task"
+        :disabled="!dateDone || !startTime || !endTime || !task"
         class="text-xl lg:text-2xl text-center border-4
         bg-emerald-300 hover:bg-emerald-200 disabled:bg-red-300 disabled:hover:bg-red-200 disabled:cursor-not-allowed transition-colors duration-150
         border-black p-2 pl-10 pr-10 mb-4"
@@ -92,11 +88,9 @@
 
 <script setup lang="ts">
 
-import dayjs from 'dayjs'
 const { data } = useSession()
 
-const date = ref()
-const formattedDate = dayjs(date.value).format('DD.MM.YYYY')
+const dateDone = ref()
 const startTime = ref()
 const endTime = ref()
 const costPool = ref()
@@ -106,21 +100,21 @@ const description = ref()
 const addNewLog = async () => {
   const body = {
     email: data.value?.user?.email,
-    date: formattedDate,
+    dateDone: dateDone.value,
     startTime: startTime.value,
     endTime: endTime.value,
     costPool: costPool.value,
     task: task.value,
     description: description.value
   }
-  await fetch(`/addlog`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  await fetch("/addlog", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body)
   })
 }
 
-const { data: presets } = await useFetch('/showpresets', { method: 'POST', body: JSON.stringify({ email: data.value?.user?.email }) })
+const { data: presets } = await useFetch("/showpresets", { method: "POST", body: JSON.stringify({ email: data.value?.user?.email }) })
 
 </script>
 

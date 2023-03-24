@@ -17,12 +17,16 @@ export default defineEventHandler(async (event) => {
       userId: user!.id
     },
     select: {
-      date: true,
+      dateAdded: true,
+      dateDone: true,
       startTime: true,
       endTime: true,
       costPool: true,
       task: true,
       description: true
+    },
+    orderBy: {
+      dateAdded: "desc"
     }
   })
   return {
