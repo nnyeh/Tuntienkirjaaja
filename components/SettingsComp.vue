@@ -12,104 +12,134 @@
     <span class="text-2xl lg:text-3xl text-center pl-10 pr-10 mt-4 mb-4">
       Tallenna tai poista
     </span>
-    <form class="flex flex-col items-center gap-2 mt-4" @submit="addNewCostPool">
-      <label for="date">Kustannuspaikka</label>
-      <input
-        v-model="costpool"
-        list="costpools"
-        spellcheck="false"
-        class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[56%] transition-all duration-75 text-base"
-        required
-        @keydown.enter.prevent
-      >
-      <datalist id="costpools">
-        <option v-for="(preset, index) in presets?.costpools" :key="index">
-          {{ preset.costpool }}
-        </option>
-      </datalist>
-      <div class="grid grid-cols-2 gap-4 mt-4 pl-10 pr-10">
-        <button
-          type="submit"
-          value="addNewCostPool"
-          :disabled="!costpool"
-          class="text-lg lg:text-xl text-center border-2
-        bg-emerald-300 hover:bg-emerald-200 disabled:bg-emerald-100 disabled:hover:bg-emerald-50 disabled:cursor-not-allowed transition-colors duration-150
-        border-black p-2 mb-4"
-        >
-          <span>
-            Lisää
-          </span>
-        </button>
-        <button
-          :disabled="!costpool"
-          class="text-lg lg:text-xl text-center border-2
-        bg-red-300 hover:bg-red-200 disabled:bg-red-100 disabled:hover:bg-red-50 disabled:cursor-not-allowed transition-colors duration-150
-        border-black p-2 mb-4"
-        >
-          <span>
-            Poista
-          </span>
-        </button>
+    <div class="flex flex-col items-center gap-2">
+      <label for="date" class="mb-4 mt-4">Kustannuspaikka</label>
+      <div class="grid min-[686px]:grid-cols-2 max-[685px]:grid-rows-2 gap-4 pl-10 pr-10">
+        <form class="flex flex-col items-center gap-4" @submit="addNewCostPool">
+          <input
+            v-model="costpoolInput"
+            spellcheck="false"
+            class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
+              border-2 border-black transition-all duration-75 text-base w-64"
+            required
+          >
+          <button
+            type="submit"
+            value="addNewCostPool"
+            :disabled="!costpoolInput"
+            class="text-lg lg:text-xl text-center border-2
+            bg-emerald-300 hover:bg-emerald-200 disabled:bg-emerald-100 disabled:hover:bg-emerald-50 disabled:cursor-not-allowed transition-colors duration-150
+            border-black p-2 mb-4"
+          >
+            <span>
+              Lisää
+            </span>
+          </button>
+        </form>
+        <form class="flex flex-col items-center gap-4" @submit="deleteCostPool">
+          <select
+            v-model="costpoolSelect"
+            spellcheck="false"
+            :disabled="presets?.costpools.length === 0"
+            class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
+              border-2 border-black transition-all duration-75 text-base w-64"
+            required
+          >
+            <option disabled selected value="">
+              Valitse
+            </option>
+            <option v-for="(preset, index) in presets?.costpools" :key="index">
+              {{ preset.costpool }}
+            </option>
+          </select>
+          <button
+            type="submit"
+            value="deleteCostPool"
+            :disabled="!costpoolSelect"
+            class="text-lg lg:text-xl text-center border-2
+            bg-red-300 hover:bg-red-200 disabled:bg-red-100 disabled:hover:bg-red-50 disabled:cursor-not-allowed transition-colors duration-150
+            border-black p-2 mb-4"
+          >
+            <span>
+              Poista
+            </span>
+          </button>
+        </form>
       </div>
-    </form>
-    <form class="flex flex-col items-center gap-2 mt-4" @submit="addNewTask">
-      <label for="date">Työtehtävä</label>
-      <input
-        v-model="task"
-        list="tasks"
-        spellcheck="false"
-        class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
-          border-2 border-black w-[56%] transition-all duration-75 text-base"
-        required
-        @keydown.enter.prevent
-      >
-      <datalist id="tasks">
-        <option v-for="(preset, index) in presets?.tasks" :key="index">
-          {{ preset.task }}
-        </option>
-      </datalist>
-      <div class="grid grid-cols-2 gap-4 mt-4 pl-10 pr-10">
-        <button
-          type="submit"
-          value="addNewTask"
-          :disabled="!task"
-          class="text-lg lg:text-xl text-center border-2
-        bg-emerald-300 hover:bg-emerald-200 disabled:bg-emerald-100 disabled:hover:bg-emerald-50 disabled:cursor-not-allowed transition-colors duration-150
-        border-black p-2 mb-4"
-        >
-          <span>
-            Lisää
-          </span>
-        </button>
-        <button
-          :disabled="!task"
-          class="text-lg lg:text-xl text-center border-2
-        bg-red-300 hover:bg-red-200 disabled:bg-red-100 disabled:hover:bg-red-50 disabled:cursor-not-allowed transition-colors duration-150
-        border-black p-2 mb-4"
-        >
-          <span>
-            Poista
-          </span>
-        </button>
+    </div>
+    <div class="flex flex-col items-center gap-2">
+      <label for="date" class="mb-4 mt-4">Kustannuspaikka</label>
+      <div class="grid min-[686px]:grid-cols-2 max-[685px]:grid-rows-2 gap-4 pl-10 pr-10">
+        <form class="flex flex-col items-center gap-4" @submit="addNewTask">
+          <input
+            v-model="taskInput"
+            spellcheck="false"
+            class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
+              border-2 border-black transition-all duration-75 text-base w-64"
+            required
+          >
+          <button
+            type="submit"
+            value="addNewTask"
+            :disabled="!taskInput"
+            class="text-lg lg:text-xl text-center border-2
+            bg-emerald-300 hover:bg-emerald-200 disabled:bg-emerald-100 disabled:hover:bg-emerald-50 disabled:cursor-not-allowed transition-colors duration-150
+            border-black p-2 mb-4"
+          >
+            <span>
+              Lisää
+            </span>
+          </button>
+        </form>
+        <form class="flex flex-col items-center gap-4" @submit="deleteTask">
+          <select
+            v-model="taskSelect"
+            spellcheck="false"
+            :disabled="presets?.tasks.length === 0"
+            class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
+              border-2 border-black transition-all duration-75 text-base w-64"
+            required
+          >
+            <option disabled selected value="">
+              Valitse
+            </option>
+            <option v-for="(preset, index) in presets?.tasks" :key="index">
+              {{ preset.task }}
+            </option>
+          </select>
+          <button
+            type="submit"
+            value="deleteTask"
+            :disabled="!taskSelect"
+            class="text-lg lg:text-xl text-center border-2
+            bg-red-300 hover:bg-red-200 disabled:bg-red-100 disabled:hover:bg-red-50 disabled:cursor-not-allowed transition-colors duration-150
+            border-black p-2 mb-4"
+          >
+            <span>
+              Poista
+            </span>
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 
-const costpool = ref("")
-const task = ref("")
+const costpoolInput = ref("")
+const costpoolSelect = ref("")
+const taskInput = ref("")
+const taskSelect = ref("")
 
 const addNewCostPool = async () => {
   const body = {
     email: data.value?.user?.email,
-    costpool: costpool.value
+    costpool: costpoolInput.value
   }
   await fetch("/addcostpoolpreset", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body)
   })
 }
@@ -117,22 +147,45 @@ const addNewCostPool = async () => {
 const addNewTask = async () => {
   const body = {
     email: data.value?.user?.email,
-    task: task.value
+    task: taskInput.value
   }
   await fetch("/addtaskpreset", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  })
+}
+
+const deleteCostPool = async () => {
+  const body = {
+    email: data.value?.user?.email,
+    costpool: costpoolSelect.value
+  }
+  await fetch("/deletecostpoolpreset", {
+    method: "POST",
+    body: JSON.stringify(body)
+  })
+}
+
+const deleteTask = async () => {
+  const body = {
+    email: data.value?.user?.email,
+    task: taskSelect.value
+  }
+  await fetch("/deletetaskpreset", {
+    method: "POST",
     body: JSON.stringify(body)
   })
 }
 
 const { data } = useSession()
-const { data: presets } = await useFetch('/showpresets', { method: 'POST', body: JSON.stringify({ email: data.value?.user?.email }) })
+const { data: presets } = await useFetch("/showpresets", { method: "POST", body: JSON.stringify({ email: data.value?.user?.email }) })
 
 </script>
 
 <style scoped>
 
+/* Jostain syystä jos tämän poistaa niin antaa harmitonta 'Unknown word' erroria, älä kysy miksi */
 [list]::-webkit-calendar-picker-indicator {
   display: none !important;
 }

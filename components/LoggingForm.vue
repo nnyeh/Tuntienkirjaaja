@@ -42,11 +42,15 @@
       <label for="task" class="pt-4">Kustannuspaikka*</label>
       <select
         v-model="costPool"
+        spellcheck="false"
         :disabled="presets?.costpools.length === 0"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 disabled:bg-red-300 disabled:hover:bg-red-300
         disabled:cursor-not-allowed focus:outline-none h-12 text-center border-2 border-black w-[100%] transition-all duration-75"
         required
       >
+        <option disabled value="">
+          Valitse
+        </option>
         <option v-for="(preset, index) in presets?.costpools" :key="index">
           {{ preset.costpool }}
         </option>
@@ -54,11 +58,15 @@
       <label for="task" class="pt-4">Työtehtävä*</label>
       <select
         v-model="task"
+        spellcheck="false"
         :disabled="presets?.tasks.length === 0"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 disabled:bg-red-300 disabled:hover:bg-red-300
         disabled:cursor-not-allowed focus:outline-none h-12 text-center border-2 border-black w-[100%] transition-all duration-75"
         required
       >
+        <option disabled value="">
+          Valitse
+        </option>
         <option v-for="(preset, index) in presets?.tasks" :key="index">
           {{ preset.task }}
         </option>
@@ -120,8 +128,7 @@ const { data: presets } = await useFetch("/showpresets", { method: "POST", body:
 
 <style scoped>
 
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
+input::-webkit-calendar-picker-indicator {
   height: 100%;
   width: auto;
   aspect-ratio: 1/1;
@@ -134,10 +141,6 @@ input[type="date"]::-webkit-datetime-edit {
 
 input[type="time"]::-webkit-datetime-edit {
   margin-left: 14%
-}
-
-[list]::-webkit-calendar-picker-indicator {
-  display: none !important;
 }
 
 </style>
