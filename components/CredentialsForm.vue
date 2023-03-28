@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-[94.3vh] flex items-center justify-center">
+    <ToastNotification id="toast" style="display: none; position: absolute" />
     <form class="flex flex-col text-center items-center gap-2" @submit="registerNewUser">
       <span class="text-3xl lg:text-4xl pb-6 p-10 pt-6">
         Tuntikirjuri
@@ -9,8 +10,8 @@
         v-model="email"
         type="text"
         spellcheck="false"
-        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         placeholder="nimi@sposti"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
           border-2 border-black w-[80%] transition-all duration-75 text-base placeholder:text-gray-500"
         required
@@ -48,8 +49,8 @@
         :type="fieldType"
         spellcheck="false"
         autocomplete="off"
-        pattern=".{8,}"
         placeholder="Vähintään 8 merkkiä"
+        pattern=".{8,}"
         class="bg-gray-300 hover:bg-yellow-100 lg:hover:bg-gray-300 lg:focus:bg-yellow-100 focus:outline-none h-12 text-center
           border-2 border-black w-[80%] transition-all duration-75 text-base placeholder:text-gray-500"
         required
@@ -79,7 +80,7 @@
           :disabled="!email || !password || password.length < 8"
           style="display: block"
           class="bg-emerald-300 hover:bg-emerald-200 disabled:bg-red-300 disabled:hover:bg-red-200 disabled:cursor-not-allowed transition-colors duration-150"
-          @click="signIn('credentials', { email: email, password: password, callbackUrl: '/uusi' })"
+          @click="SignInHandler({ email, password })"
         >
           <p class="border-4 border-black p-4 transition-colors duration-150">
             Kirjaudu
@@ -106,8 +107,6 @@
 
 const { signIn } = useSession()
 
-const router = useRouter()
-
 const email = ref("")
 const firstName = ref("")
 const lastName = ref("")
@@ -118,6 +117,29 @@ function togglePasswordVisibility () {
   fieldType.value = fieldType.value === "text" ? "password" : "text"
 }
 
+function showRegisterToast () {
+  const toast = document.getElementById("toast")
+  toast!.childNodes[0].textContent = "Rekisteröityminen onnistui!"
+  toast!.style.display = "block"
+  setTimeout(() => { toast!.style.display = "none" }, 4000)
+}
+
+function showLoginToast () {
+  const toast = document.getElementById("toast")
+  toast!.childNodes[0].textContent = "Virheellinen sähköpostiosoite tai salasana"
+  toast!.style.display = "block"
+  setTimeout(() => { toast!.style.display = "none" }, 4000)
+}
+
+const SignInHandler = async ({ email, password }: { email: string, password: string }) => {
+  const { error } = await signIn('credentials', { email, password, redirect: false })
+  if (error) {
+    showLoginToast()
+  } else {
+    return navigateTo("/uusi", { external: true })
+  }
+}
+
 const registerNewUser = async () => {
   const body = {
     email: email.value,
@@ -125,14 +147,17 @@ const registerNewUser = async () => {
     lastName: lastName.value,
     password: password.value
   }
-  await fetch("/createuser", {
+  const response = await fetch("/createuser", {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   })
-    .then(() => {
-      router.push({ path: '/' })
-    })
+  await response.json()
+  if (response.status === 200) {
+    showRegisterToast()
+  } else {
+    console.log("Jotain meni pieleen")
+  }
 }
 
 function toggleRegistering () {
@@ -155,7 +180,6 @@ function toggleRegistering () {
     registerButton!.style.display = "none"
   }
 }
-
 </script>
 
 <style scoped>

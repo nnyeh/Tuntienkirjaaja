@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const { email, firstName, lastName, password } = await readBody(event)
   // eslint-disable-next-line import/no-named-as-default-member
   const hashedPassword = await bcrypt.hash(password, 10)
-  const createUser = await prisma.user.create({
+  await prisma.user.create({
     data: {
       email,
       firstName,
@@ -14,5 +14,7 @@ export default defineEventHandler(async (event) => {
       hashedPassword
     }
   })
-  return createUser
+  return {
+    statusCode: 200
+  }
 })
