@@ -117,14 +117,21 @@ function togglePasswordVisibility () {
   fieldType.value = fieldType.value === "text" ? "password" : "text"
 }
 
-function showRegisterToast () {
+function showSuccessfulRegisterToast () {
   const toast = document.getElementById("toast")
   toast!.childNodes[0].textContent = "Rekisteröityminen onnistui!"
   toast!.style.display = "block"
   setTimeout(() => { toast!.style.display = "none" }, 4000)
 }
 
-function showLoginToast () {
+function showFailedRegisterToast () {
+  const toast = document.getElementById("toast")
+  toast!.childNodes[0].textContent = "Rekisteröityminen ei onnistunut."
+  toast!.style.display = "block"
+  setTimeout(() => { toast!.style.display = "none" }, 4000)
+}
+
+function showFailedLoginToast () {
   const toast = document.getElementById("toast")
   toast!.childNodes[0].textContent = "Virheellinen sähköpostiosoite tai salasana"
   toast!.style.display = "block"
@@ -134,7 +141,7 @@ function showLoginToast () {
 const SignInHandler = async ({ email, password }: { email: string, password: string }) => {
   const { error } = await signIn('credentials', { email, password, redirect: false })
   if (error) {
-    showLoginToast()
+    showFailedLoginToast()
   } else {
     return navigateTo("/uusi", { external: true })
   }
@@ -154,9 +161,9 @@ const registerNewUser = async () => {
   })
   await response.json()
   if (response.status === 200) {
-    showRegisterToast()
+    showSuccessfulRegisterToast()
   } else {
-    console.log("Jotain meni pieleen")
+    showFailedRegisterToast()
   }
 }
 
