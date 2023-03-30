@@ -68,7 +68,7 @@
       </div>
     </div>
     <div class="flex flex-col items-center gap-2">
-      <label for="date" class="mb-4 mt-4">Kustannuspaikka</label>
+      <label for="date" class="mb-4 mt-4">Työtehtävä</label>
       <div class="grid min-[686px]:grid-cols-2 max-[685px]:grid-rows-2 gap-4 pl-10 pr-10">
         <form class="flex flex-col items-center gap-4" @submit="addNewTask">
           <input

@@ -117,6 +117,8 @@ function togglePasswordVisibility () {
   fieldType.value = fieldType.value === "text" ? "password" : "text"
 }
 
+// Joko ei toimi tai ei toimi niin kuin pitäisi, pitäisi saada ilmoitus (toast) näkymään vasta sivun ladattua,
+// se pitäisi saada toimimaan registerNewUser-funktion if-else -lausekkeen sisällä
 function showSuccessfulRegisterToast () {
   const toast = document.getElementById("toast")
   toast!.childNodes[0].textContent = "Rekisteröityminen onnistui!"
@@ -133,7 +135,7 @@ function showFailedRegisterToast () {
 
 function showFailedLoginToast () {
   const toast = document.getElementById("toast")
-  toast!.childNodes[0].textContent = "Virheellinen sähköpostiosoite tai salasana"
+  toast!.childNodes[0].textContent = "Virheellinen sähköpostiosoite tai salasana!"
   toast!.style.display = "block"
   setTimeout(() => { toast!.style.display = "none" }, 4000)
 }

@@ -7,5 +7,5 @@
 </template>
 
 <script setup lang="ts">
-const message = ref("a")
+const message = ref("")
 </script>
