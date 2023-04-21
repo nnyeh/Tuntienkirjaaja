@@ -10,3 +10,5 @@ dist
 .editorconfig
 .eslintignore
 .eslintrc
+.vscode
+package-lock.json
